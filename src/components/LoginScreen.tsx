@@ -7,7 +7,7 @@ import { checkCredentials } from '@/lib/auth'
 import { DOMAIN_META, QUESTIONS } from '@/lib/quiz'
 
 interface LoginScreenProps {
-  onLogin: () => void
+  onLogin: (email: string) => void
   dark: boolean
   onToggleDark: () => void
 }
@@ -26,7 +26,7 @@ export function LoginScreen({ onLogin, dark, onToggleDark }: LoginScreenProps) {
     const ok = await checkCredentials(email, password)
     setBusy(false)
     if (ok) {
-      onLogin()
+      onLogin(email)
     } else {
       setError(true)
       setPassword('')

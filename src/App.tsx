@@ -69,13 +69,13 @@ export default function App() {
     window.scrollTo(0, 0)
   }
 
-  const login = () => {
-    setAuthed(true)
+  const login = (email: string) => {
+    setAuthed(email)
     setAuthedState(true)
   }
 
   const logout = () => {
-    setAuthed(false)
+    setAuthed(null)
     setAuthedState(false)
     setScreen({ name: 'home' })
   }

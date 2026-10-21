@@ -1,4 +1,5 @@
 import rawQuestions from '@/data/questions.json'
+import { userKey } from '@/lib/auth'
 import type { Question, QuizMode, SessionQuestion } from '@/types'
 
 export const QUESTIONS = rawQuestions as Question[]
@@ -122,7 +123,7 @@ function safeParse<T>(raw: string | null, fallback: T): T {
 }
 
 export function loadStats(): Stats {
-  return safeParse(localStorage.getItem(STATS_KEY), {})
+  return safeParse(localStorage.getItem(userKey(STATS_KEY)), {})
 }
 
 export function recordAnswer(questionId: number, wasCorrect: boolean) {
@@ -132,11 +133,11 @@ export function recordAnswer(questionId: number, wasCorrect: boolean) {
   if (wasCorrect) s.correct += 1
   else s.wrong += 1
   stats[questionId] = s
-  localStorage.setItem(STATS_KEY, JSON.stringify(stats))
+  localStorage.setItem(userKey(STATS_KEY), JSON.stringify(stats))
 }
 
 export function loadMeta(): Meta {
-  return safeParse(localStorage.getItem(META_KEY), { sessionsCompleted: 0, bestExamPct: null })
+  return safeParse(localStorage.getItem(userKey(META_KEY)), { sessionsCompleted: 0, bestExamPct: null })
 }
 
 export function recordSession(scorePct: number | null) {
@@ -145,7 +146,7 @@ export function recordSession(scorePct: number | null) {
   if (scorePct !== null && (meta.bestExamPct === null || scorePct > meta.bestExamPct)) {
     meta.bestExamPct = scorePct
   }
-  localStorage.setItem(META_KEY, JSON.stringify(meta))
+  localStorage.setItem(userKey(META_KEY), JSON.stringify(meta))
 }
 
 export interface DomainAccuracy {

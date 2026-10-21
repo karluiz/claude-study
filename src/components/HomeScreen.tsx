@@ -14,6 +14,7 @@ import {
   Timer,
   Zap,
 } from 'lucide-react'
+import { userKey } from '@/lib/auth'
 import { EXAM_GUIDE_URL, RESOURCES, type ResourceGroup } from '@/data/resources'
 import {
   DOMAIN_META,
@@ -353,7 +354,7 @@ function StudyPlan({ weakest }: { weakest: string }) {
   ]
   const [done, setDone] = useState<boolean[]>(() => {
     try {
-      return JSON.parse(localStorage.getItem(PLAN_KEY) ?? '[]')
+      return JSON.parse(localStorage.getItem(userKey(PLAN_KEY)) ?? '[]')
     } catch {
       return []
     }
@@ -362,7 +363,7 @@ function StudyPlan({ weakest }: { weakest: string }) {
     const next = [...done]
     next[i] = !next[i]
     setDone(next)
-    localStorage.setItem(PLAN_KEY, JSON.stringify(next))
+    localStorage.setItem(userKey(PLAN_KEY), JSON.stringify(next))
   }
 
   return (
