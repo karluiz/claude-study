@@ -190,3 +190,11 @@ export function overallAccuracy(): { answered: number; accuracy: number | null }
   const answeredIds = Object.values(stats).filter((s) => s.seen > 0).length
   return { answered: answeredIds, accuracy: attempts > 0 ? correct / attempts : null }
 }
+
+/** Questions answered wrong more often than right — candidates for review. */
+export function mistakeIds(): number[] {
+  const stats = loadStats()
+  return Object.entries(stats)
+    .filter(([, s]) => s.wrong > s.correct)
+    .map(([id]) => Number(id))
+}

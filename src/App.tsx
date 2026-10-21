@@ -82,18 +82,21 @@ export default function App() {
 
   return (
     <div className="min-h-svh bg-background text-foreground">
-      <Header
-        dark={dark}
-        onToggleDark={() => setDark((d) => !d)}
-        onLogout={authed ? logout : undefined}
-      />
+      {authed && (
+        <Header
+          dark={dark}
+          onToggleDark={() => setDark((d) => !d)}
+          onLogout={logout}
+          onHome={() => setScreen({ name: 'home' })}
+        />
+      )}
       <main>
         {!authed ? (
-          <LoginScreen onLogin={login} />
+          <LoginScreen onLogin={login} dark={dark} onToggleDark={() => setDark((d) => !d)} />
         ) : (
           <>
             {screen.name === 'home' && (
-              <HomeScreen onStart={(mode, domain) => startQuiz(mode, domain)} />
+              <HomeScreen onStart={startQuiz} />
             )}
             {screen.name === 'quiz' && (
               <QuizScreen
